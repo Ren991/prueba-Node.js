@@ -2,15 +2,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const productoRoutes = require('./routes/produtoRoutes');
+require('dotenv').config(); // Cargar variables de entorno desde el archivo .env
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Conectar a la base de datos MongoDB
-mongoose.connect('mongodb+srv://Ren_Beccari:AbraCadaBra12@cluster0.muqnu.mongodb.net/pruebaNode?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 const db = mongoose.connection;
 
-//const CONNECTION_URL = 
+
 db.on('error', console.error.bind(console, 'Error de conexión a MongoDB:'));
 db.once('open', () => {
   console.log('Conectado a MongoDB');
