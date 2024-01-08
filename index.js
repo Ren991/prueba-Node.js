@@ -1,6 +1,7 @@
 // index.js
 const express = require('express');
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser')
 const productoRoutes = require('./routes/produtoRoutes');
 require('dotenv').config(); // Cargar variables de entorno desde el archivo .env
 
@@ -18,7 +19,7 @@ db.once('open', () => {
   console.log('Conectado a MongoDB');
 });
 
-app.use(express.json());
+app.use(bodyParser.json());
 app.use('/api', productoRoutes);
 
 app.listen(PORT, () => {
