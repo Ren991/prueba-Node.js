@@ -2,33 +2,44 @@ const bcrypt = require('bcrypt');
 const User = require('../models/Usuario');
 
 exports.register = async (req, res) => {
-    try {
+  try {
       const { name, email, username, password } = req.body;
-    
+
+      // Verificar si el correo electrónico ya existe en la base de datos
+      const existingUser = await User.findOne({ email });
+
+      if (existingUser) {
+          return res.status(400).json({ error: 'El correo electrónico ya está registrado' });
+      }
+
       // Validar la contraseña
       if (password.length < 8) {
-        return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres' });
+          return res.status(400).json({ error: 'La contraseña debe tener al menos 8 caracteres' });
       }
-  
+
       // Verificar si hay al menos un carácter especial en la contraseña
       const specialCharRegex = /[\W_]/;
       if (!specialCharRegex.test(password)) {
-        return res.status(400).json({ error: 'La contraseña debe contener al menos un carácter especial' });
-      }  
+          return res.status(400).json({ error: 'La contraseña debe contener al menos un carácter especial' });
+      }
+
       // Verificar si hay al menos una letra mayúscula en la contraseña
       const uppercaseRegex = /[A-Z]/;
       if (!uppercaseRegex.test(password)) {
-        return res.status(400).json({ error: 'La contraseña debe contener al menos una letra mayúscula' });
-      }  
+          return res.status(400).json({ error: 'La contraseña debe contener al menos una letra mayúscula' });
+      }
+
       // Hash de la contraseña antes de almacenarla en la base de datos
-      const hashedPassword = await bcrypt.hash(password, 10);  
+      const hashedPassword = await bcrypt.hash(password, 10);
+
       const user = new User({ name, email, username, password: hashedPassword });
-      await user.save();  
+      await user.save();
+
       res.json({ message: 'Usuario registrado exitosamente' });
-    } catch (error) {
-        console.log("No se pudo registrar")
+  } catch (error) {
+      console.log("No se pudo registrar");
       res.status(500).json({ error: 'Error al registrar el usuario' });
-    }
+  }
 };
 
 exports.login = async (req, res) => {
