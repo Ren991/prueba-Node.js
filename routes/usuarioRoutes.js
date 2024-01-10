@@ -9,5 +9,7 @@ router.post('/auth/register', authController.register);
 router.post('/auth/login', authController.login);
 // Ruta para cierre de sesión
 router.get('/auth/logout', authController.logout);
+// Ruta para ver los usuarios
+router.get('/users', authController.getAllUsers);
 
 module.exports = router;

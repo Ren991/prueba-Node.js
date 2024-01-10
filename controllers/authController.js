@@ -55,3 +55,15 @@ exports.logout = (req, res) => {
     // Redireccionar al usuario a la página de inicio de sesión o a donde prefieras
     res.redirect('/login');
   };
+
+exports.getAllUsers = async (req, res) => {
+    try {
+        // Proyección para seleccionar solo los campos deseados (nombre y email)
+        const users = await User.find({}, { name: 1, email: 1 });
+
+        res.json(users);
+    } catch (error) {
+        console.log("No se pudieron obtener los usuarios");
+        res.status(500).json({ error: 'Error al obtener los usuarios' });
+    }
+};
