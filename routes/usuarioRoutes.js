@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controllers/authController');
 
+
 // Ruta para registro de usuario
 router.post('/auth/register', authController.register);
 // Ruta para inicio de sesión
