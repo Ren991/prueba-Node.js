@@ -1,4 +1,6 @@
 // controllers/productoController.js
+const redis = require('redis');
+const client = redis.createClient();
 const Producto = require('../models/Producto');
 
 exports.obtenerProductos = async (req, res) => {

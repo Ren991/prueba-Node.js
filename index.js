@@ -1,10 +1,10 @@
 // index.js
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser')
+const bodyParser = require('body-parser');
+const compression = require('compression');
 const productoRoutes = require('./routes/produtoRoutes');
-require('dotenv').config(); // Cargar variables de entorno desde el archivo .env
-
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -13,13 +13,13 @@ const PORT = process.env.PORT || 3000;
 mongoose.connect(process.env.MONGODB_URI);
 const db = mongoose.connection;
 
-
 db.on('error', console.error.bind(console, 'Error de conexión a MongoDB:'));
 db.once('open', () => {
   console.log('Conectado a MongoDB');
 });
 
 app.use(bodyParser.json());
+app.use(compression()); // Middleware de compresión
 app.use('/api', productoRoutes);
 
 app.listen(PORT, () => {
