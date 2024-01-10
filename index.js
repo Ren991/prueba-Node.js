@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const compression = require('compression');
 const productoRoutes = require('./routes/produtoRoutes');
+const usuarioRoutes = require('./routes/usuarioRoutes')
 require('dotenv').config();
 
 const app = express();
@@ -21,6 +22,7 @@ db.once('open', () => {
 app.use(bodyParser.json());
 app.use(compression()); // Middleware de compresión
 app.use('/api', productoRoutes);
+app.use('/api/usuarios',usuarioRoutes);
 
 app.listen(PORT, () => {
   console.log(`Servidor iniciado en http://localhost:${PORT}`);
