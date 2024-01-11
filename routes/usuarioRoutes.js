@@ -12,5 +12,7 @@ router.post('/auth/login', authController.login);
 router.get('/auth/logout', authController.logout);
 // Ruta para ver los usuarios
 router.get('/users', authController.getAllUsers);
+// Ruta para eliminar usuario
+router.delete('/auth/:id', authController.deleteUser);
 
 module.exports = router;

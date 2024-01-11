@@ -90,3 +90,19 @@ exports.getAllUsers = async (req, res) => {
     res.status(500).json({ error: 'Error al obtener los usuarios' });
   }
 };
+
+exports.deleteUser = async (req, res) => {
+  try {
+    const idUsuario = req.params.id; // Obtener el ID del usuario desde los parámetros de la solicitud
+    const usuarioEliminado = await User.findByIdAndDelete(idUsuario);
+
+    if (!usuarioEliminado) {
+      // Si no se encuentra el usuario con el ID proporcionado, devolver un error 404
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    res.json({ mensaje: 'Usuario eliminado exitosamente' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al eliminar el usuario' });
+  }
+};
